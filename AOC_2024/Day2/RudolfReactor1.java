@@ -98,7 +98,7 @@ public class RudolfReactor1{
     public static void main(String[] args) {
         String test = "LevelsTest.txt";
         String file = "ReactorLevels.txt";
-        toArrayList(file);
+        toArrayList(test);
         safeRuns();
     }
 }
