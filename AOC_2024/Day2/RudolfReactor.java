@@ -65,44 +65,152 @@ public class RudolfReactor {
         System.out.println(counter);
     }
     public static boolean goingDown(int[] line){
+        // add counter to mark a false
+        boolean broken=false;
         for (int i = 0; i < line.length-1; i++){
             if (line[i] < line[i+1]){
-                return false;
+                broken=true;
+                break;
             }
             else if (line[i] == line[i+1]){
-                return false;
+                broken=true;
+                break;
             }
             else{
                 if(line[i]-3 > line[i+1]){
-                    return false;
+                    broken=true;
+                    break;
                 }
                 else{continue;}
             }
         }
-        return true;
+        if (broken==true){
+            broken=dubCkUp(line);
+            if(broken==false){
+                return true;
+            }
+            broken=dubCkDn(line);
+            if(broken==false){
+                return true;
+            }
+            else{return false;}
+        }
+
+        else{return true;}
     }
     public static boolean goingUp(int[] line){
+        boolean broken=false;
         for (int i = 0; i < line.length-1; i++){
             if (line[i] > line[i+1]){
-                return false;
+                broken=true;
+                break;
             }
             else if (line[i] == line[i+1]){
-                return false;
+                broken=true;
+                break;
             }
             else{
                 if(line[i]+3 < line[i+1]){
-                    return false;
+                    broken=true;
+                    break;
                 }
                 else{continue;}
             }
         }
+        if (broken==true){
+            broken=dubCkUp(line);
+            if(broken==false){
+                return true;
+            }
+            broken=dubCkDn(line);
+            if(broken==false){
+                return true;
+            }
+            else{return false;}
+        }
+
+        else{return true;}
+    }
+    public static boolean dubCkUp(int[] line){
+        int j=line.length-1;
+        int i=0;
+        boolean broken=false;
+        while(j>=0){
+            while (i<line.length-1){
+                broken=false;                
+                if(i==j){
+                    i++;
+                }
+                if (i>line.length-1){break;}
+                if (j==line.length-1 && i+1==j){
+                    break;
+                }
+                if (line[i] > line[i+1]){
+                    broken=true;
+                    break;
+                }
+                else if (line[i] == line[i+1]){
+                    broken=true;
+                    break;
+                }
+                else{
+                    if(line[i]+3 < line[i+1] ){
+                        broken=true;
+                        break;
+                    }
+                    else{i++;}
+                }
+                
+            }
+            if (broken==false){
+                return broken;
+            }
+            else{j--;}
+        }
+        return broken;
+    }
+    public static boolean dubCkDn(int[] line){
+        int j=line.length-1;
+        int i=0;
+        boolean broken=false;
+        while(j>=0){
+            
+            while (i<line.length-1){
+                broken=false;                
+                if(i==j){
+                    i++;
+                }
+                if (i>line.length-1){break;}
+                if (j==line.length-1 && i+1==j){
+                    break;
+                }
+                if (line[i] < line[i+1]){
+                    broken=true;
+                    break;
+                }
+                else if (line[i] == line[i+1]){
+                    broken=true;
+                    break;
+                }
+                else{
+                    if(line[i]-3 > line[i+1]){
+                        broken=true;
+                        break;
+                    }
+                    else{i++;}
+                }
+            }
+            if (broken==false){
+                return false;
+            }
+            else{j--;}
+        }
         return true;
     }
-    public boolean dubCkUp(int[] line){}
     public static void main(String[] args) {
         String test = "LevelsTest.txt";
         String file = "ReactorLevels.txt";
-        toArrayList(test);
+        toArrayList(file);
         safeRuns();
     }
 }
