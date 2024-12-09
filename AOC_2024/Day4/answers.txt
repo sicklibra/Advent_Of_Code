@@ -4,3 +4,8 @@ Problem 1:
 2441 wrong
 2427 low
 2386 low
+
+problem 2:
+1877 too high
+1647 too low 
+1645 too low
