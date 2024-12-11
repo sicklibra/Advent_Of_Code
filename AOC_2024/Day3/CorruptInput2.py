@@ -23,43 +23,89 @@ def findsubstrings(instring):
     nums=[]
     index=0
     sum=0
+    dopos=findDoPos(instring)
+    dontpos=findDontPos(instring)
+    do=True
+    dontindpos=0
+    doindpos=0
+    doind=dopos[doindpos]
+    dontind=dontpos[dontindpos]
     #iterate through whole string by the beginning of the key 'mul('signifying the start of a valid set
     while index>=0:
         num1=""
         num2=""
         #iterates to next valid opening starting from the index left from the last round of while
         index=instring.find("mul(", index, len(instring)-1)
-        
-        if instring[index+4].isdigit():
-            switch=False
-            index+=4
-            while instring[index].isdigit():
-                if switch==False:
-                    num1+=instring[index]
-                    print(num1)
-                    index+=1
-                    if instring[index]==',':
+        if index>dontind and index> doind:
+            if doind<dontind:
+                while doind<dontind:
+                    doindpos+=1
+                    if doindpos>len(dopos):
+                        doind=100000
+                    else:
+                        doind=dopos[doindpos]
+            else:
+                while dontind<doind:
+                    dontindpos+=1
+                    if dontindpos>len(dontpos)-1:
+                        dontind=100000
+                    else:
+                        dontind=dontpos[dontindpos]
+        if dontind<doind:
+            do=False
+        else:
+            do=True
+
+
+        if do==True:
+            if instring[index+4].isdigit():
+                switch=False
+                index+=4
+                while instring[index].isdigit():
+                    if switch==False:
+                        num1+=instring[index]
+                        # print(num1)
                         index+=1
-                        if instring[index].isdigit():
-                            switch=True
-                    else:continue
-                else:
-                    num2+=instring[index]
-                    index+=1
-                    print ('n'+ num2)
-                    if instring[index]==")":
-                        nums.append(int(num1)*int(num2))
+                        if instring[index]==',':
+                            index+=1
+                            if instring[index].isdigit():
+                                switch=True
+                        else:continue
+                    else:
+                        num2+=instring[index]
+                        index+=1
+                        if instring[index]==")":
+                            nums.append(int(num1)*int(num2))
+        else:
+            if index<0:
+                index=-1
+            else:
+                index+=1
                     
     for number in nums:
         sum+=number
     print(sum)
-#mul[(]  +[)]
 
+def findDoPos(instring):
+    dopos=[0]
+    index=0
+    while(index>=0):
+        index=instring.find("do()", index+2, len(instring)-1)
+        dopos.append(index)
+    return dopos
+
+def findDontPos(instring):
+    dontpos=[]
+    index=0
+    while (index>=0):
+        index=instring.find("don",index+2, len(instring)-1)
+        dontpos.append(index)
+    return dontpos
 def main():
     file="CorruptInput.txt"
-    #file='CorruptTest.txt'
+    # file='CorruptTest.txt'
     cfile=accessfile(file)
-    print(cfile)
+    # print(cfile)
     findsubstrings(cfile)
 
 main()

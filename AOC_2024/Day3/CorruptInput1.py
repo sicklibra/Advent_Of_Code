@@ -19,6 +19,8 @@ def findsubstrings(instring):
     sum=0
     #iterate through whole string by the beginning of the key 'mul('signifying the start of a valid set
     while index>=0:
+        doindex=re.findall('do/[(]/[)]/')
+        dontindex=[]
         num1=""
         num2=""
         #iterates to next valid opening starting from the index left from the last round of while

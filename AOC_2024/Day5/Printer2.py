@@ -15,6 +15,12 @@
 5) if the comparisons are completed successfully, find middle number by referencing the index
     line(len//2) and add that to the sum pool'''
 
+'''problem2:
+uses only the lists that fail the rule test. The sum is come to by the same way, in that once it passes the test, it will
+add the center integers. the way i will accomplish this is to create a dummy list and check it against the matrix using my 
+old function. it will work the same way, but if it hits a failure, it will take the number and compare it to all of the other
+numbers in the list. when it finds a suitable spot, it is inserted it will then run a check again to make sure all are in place. '''
+
 
 
 def accessFile(file):
@@ -42,13 +48,64 @@ def getCount(rules, input):
     sum=0
     for set in input:
         # print(set)
-        if compare(rules, set)==True:
-            center=set[len(set)//2]
-            # print(center)
-            sum+=set[(len(set))//2]
+        if compare(rules, set)==False:
+            sum+=makeRight(rules, set)
         
     print(sum)
 
+def makeRight(rules, set):
+    for i in range(len(set)):
+        ival=set[i]
+        j=i+1
+        while j<len(set)-1:
+            jval=set[j]
+            if rules[jval][ival]:
+                #inserts i after J
+                findspot(rules, set, i, j)
+                if compare(rules,set)==True:
+                    return set[len(set)//2]
+                else:
+                    j+=1
+            else:
+                j+=1
+        j=i-1
+        while j>=0:
+            jval=set[j]
+            if rules[ival][jval]==1:
+                findspot(rules, set, i, j)
+                if compare(rules, set)==True:
+                    return set[len(set)//2]
+                else:
+                    j-=1
+            else:
+                j-=1
+    print("something didn't go as planned")    
+
+def findspot(rules, set, i, j):
+    temp=set[i]
+    potpos=0
+    for num in set:
+        if i<j:
+            
+        if potpos==i:
+            continue
+        elif rules[potpos][temp]==1:
+            continue
+
+
+def insertAfter(set, i, j):
+    temp=set[i]
+    while i<j:
+       set[i]=set[i+1]
+       i+=1
+    set[j]=temp
+
+def insertBefore(set, i, j):
+    temp=set[i]
+    while j<i:
+        set[i]=set[i-1]
+        i-=1
+    set[j]=temp
 
 def compare(rules, set):
     for i in range(len(set)):
