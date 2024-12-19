@@ -45,31 +45,45 @@ condensed. when a '.' is found in i, it will begin checking j until j != '.' i w
 replaced with '.' """       
 def condense(decomplst):
     j=len(decomplst)-1
-    while True:
+    while j>= 2:
         jblock=0
-        if decomplst[j]!='.':
-            i=0
+        if decomplst[j]!='.':            
             item=decomplst[j]
             while decomplst[j]==item:
                 jblock+=1
                 j-=1
-            while i<j:
-                if decomplst[i]=='.':
-                    k=i
-                    kblock=0
-                    while decomplst[k]=='.':
-                        kblock+=1
-                        k+=1
-                    if kblock>=jblock:
-                        for place in range(jblock)
+            decomplst=findSlot(decomplst, jblock, j)
+        else:
+            j-=1
+    return decomplst
+
+def findSlot(lst, block, jind):
+    key=lst[jind+1]
+    for i in range(jind):
+        fBlock=0
+        if lst[i]=='.':
+            test=i
+            while fBlock<block and lst[test]=='.':                
+                fBlock+=1
+                test+=1
+        if fBlock==block:
+            replaceind=i
+            movedind=jind+1
+            for j in range(block):
+                lst[replaceind]=key
+                replaceind+=1
+                lst[movedind]='.'
+                movedind+=1
+            return lst    
+    return lst   
+
 
 
 def getsum(lst):
-    i=0
     sum=0
-    while lst[i]!='.':
-        sum+=lst[i]*i
-        i+=1
+    for i in range(len(lst)-1):
+        if lst[i]!='.':
+            sum+=lst[i]*i
     return sum
 
 def main():
@@ -78,6 +92,7 @@ def main():
     numlst=getlist(file)
     decomp=decompress(numlst)
     condensed=condense(decomp)
+    print (condensed)
     checksum=getsum(condensed)
     print(checksum)
 
