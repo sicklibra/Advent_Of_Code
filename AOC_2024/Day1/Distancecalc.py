@@ -59,7 +59,7 @@ def numMatches(refl, ind):
 
 def main():
     # file = 'distancesTest.txt'
-    file = "Distances.txt"
+    file = "./Distances.txt"
     allnums=accessfile(file)
     left, right=sepNSort(allnums)
     sum=0

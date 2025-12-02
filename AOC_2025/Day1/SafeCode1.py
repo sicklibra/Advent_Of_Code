@@ -17,8 +17,25 @@ def readFile(file):
     return lnlst
 
 ''' The way to handle this one is to take the numbers and add or subtract in accordance with left and right
-left will be addition and right will be subtraction. Take the final number and take the abs value of that number and 
+left will be subtraction and right will be addition. Take the final number and take the abs value of that number and 
 if it is over 1000 mod 1000 then mod 100 and that will give me the 0-99 value that I am looking for
 then if it is 0 add it to the count.'''
 def main():
     lns = readFile('day1_input.txt')
+    count=0
+    #dial starts at 50
+    dial=50
+    for i in lns:
+        num=int(i[1:-1])
+        dir=i[0]
+        if dir=='R':
+            dial+=num
+        elif dir=='L':
+            dial=abs(dial-num)
+        else:
+            print('somethings wrong')
+
+        dial= dial//100
+        if dial==0:
+            count+=1
+    print(count)
