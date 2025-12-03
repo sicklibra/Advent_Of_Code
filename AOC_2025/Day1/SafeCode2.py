@@ -14,13 +14,10 @@ def readFile(file):
     while line!='':
         lnlst.append(line.strip('\n'))
         line=infile.readline()
-    # print(lnlst)
     return lnlst
 
-''' The way to handle this one is to take the numbers and add or subtract in accordance with left and right
-left will be subtraction and right will be addition. Take the final number and take the abs value of that number and 
-if it is over 1000 mod 1000 then mod 100 and that will give me the 0-99 value that I am looking for
-then if it is 0 add it to the count.'''
+'''Okay, now i have to count all of the times the dial =0 this should be relatively easy. I will simply use floor division on the final result and with the
+negatives simply add another to the count.'''
 def main():
     # lns=readFile('test.txt')
     lns = readFile('./day1_input.txt')
@@ -28,27 +25,31 @@ def main():
     #dial starts at 50
     dial=50
     for i in lns:
-        # print (dial)
-        # print(i)        
+        if dial%100 == 0:
+            dial=0
+            count+=1     
         if len(i)==2:
             num=int(i[-1])
         else:
             num=int(i[1:])
         dir=i[0]
-        print(dial, dir, num)
+        '''Alright, done being clever, it came out more complicated than it needed to be for the purposes of this exercise... Brute force it is. '''
+        print(dial, dir, num, count)
         if dir=='R':
-            dial=dial + num
-        elif dir=='L':
-            dial=(dial-num)
-            if dial<0:
-                dial=100+dial
+            for j in range (num): 
+                if dial == 100:
+                    count+=1
+                    dial = 0
+                dial+=1
         else:
-            print('somethings wrong')
+            for j in range (num):
+                if dial == 0:
+                    if j!= 0:
+                        count+=1
+                    dial=100
+                dial-=1
 
-        dial= dial%100
-        if dial==0:
-            count+=1
-        # print(dial, count)
+        
     print(count)
 
 main()
